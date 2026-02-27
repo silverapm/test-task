@@ -1,0 +1,32 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.label {
+  color: #334155;
+}
+
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+}
+
+.input:focus {
+  border-color: #94a3b8;
+}
+
+.hint {
+  color: #64748b;
+}
+
+.error {
+  color: #b91c1c;
+}
