@@ -32,12 +32,12 @@ function renderIcon(item: Destination) {
 }
 
 export function DestinationAutocomplete({
-                                            value,
-                                            onChange,
-                                            label = 'Destination',
-                                            placeholder = 'Type to search…',
-                                            disabled = false,
-                                        }: DestinationAutocompleteProps) {
+    value,
+    onChange,
+    label = 'Destination',
+    placeholder = 'Type to search…',
+    disabled = false,
+}: DestinationAutocompleteProps) {
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState<Destination[]>([]);
     const [inputValue, setInputValue] = useState(value?.name ?? '');
@@ -96,13 +96,11 @@ export function DestinationAutocomplete({
     async function loadSearchCached(q: string) {
         const query = q.trim();
 
-        // empty query -> show countries
         if (!query) {
             await loadCountriesCached();
             return;
         }
 
-        // minimal threshold (optional but recommended)
         if (query.length < 2) {
             setItems([]);
             return;
@@ -120,7 +118,6 @@ export function DestinationAutocomplete({
         const map = (await resp.json()) as Record<string, Destination>;
         const list = Object.values(map);
 
-        // ignore stale responses
         if (myRequestId !== requestIdRef.current) return;
 
         searchCacheRef.current.set(query, list);
@@ -237,7 +234,9 @@ export function DestinationAutocomplete({
                                     className={styles.item}
                                 >
                                     <span className={styles.icon}>{renderIcon(it)}</span>
+
                                     <span className={styles.name}>{it.name}</span>
+
                                     <span className={styles.type}>{it.type}</span>
                                 </div>
                             ))}

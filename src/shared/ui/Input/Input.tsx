@@ -24,9 +24,7 @@ export function Input({
     const inputId = id ?? `input-${autoId}`;
 
     return (
-        <div
-            className={clsx(styles.root, fullWidth && styles.fullWidth, className)}
-        >
+        <div className={clsx(styles.root, fullWidth && styles.fullWidth, className)}>
             {label && (
                 <label htmlFor={inputId} className={styles.label}>
                     {label}
