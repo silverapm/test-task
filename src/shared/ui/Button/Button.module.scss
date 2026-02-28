@@ -1,0 +1,26 @@
+.root {
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.primary {
+  background: var(--color-primary);
+  color: var(--color-surface);
+}
+
+.primary:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.root:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

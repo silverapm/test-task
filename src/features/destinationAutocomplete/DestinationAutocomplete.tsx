@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import {
     autoUpdate,
     flip,
@@ -9,7 +9,9 @@ import {
     useInteractions,
 } from '@floating-ui/react';
 
+import { useDebouncedCallback } from '../../shared/hooks/useDebouncedCallback';
 import { Input } from '../../shared/ui/Input/Input';
+import { IconButton } from '../../shared/ui/IconButton/IconButton';
 import * as api from '../../shared/api/api.js';
 import type { Destination, DestinationAutocompleteProps } from './types';
 import styles from './DestinationAutocomplete.module.scss';
@@ -30,15 +32,20 @@ function renderIcon(item: Destination) {
 }
 
 export function DestinationAutocomplete({
-    value,
-    onChange,
-    label = 'Destination',
-    placeholder = 'Type to search…',
-    disabled = false,
-}: DestinationAutocompleteProps) {
+                                            value,
+                                            onChange,
+                                            label = 'Destination',
+                                            placeholder = 'Type to search…',
+                                            disabled = false,
+                                        }: DestinationAutocompleteProps) {
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState<Destination[]>([]);
     const [inputValue, setInputValue] = useState(value?.name ?? '');
+    const inputElRef = useRef<HTMLInputElement | null>(null);
+
+    const countriesCacheRef = useRef<Destination[] | null>(null);
+    const searchCacheRef = useRef<Map<string, Destination[]>>(new Map());
+    const requestIdRef = useRef(0);
 
     const { refs, floatingStyles, context } = useFloating<HTMLInputElement>({
         open,
@@ -50,6 +57,7 @@ export function DestinationAutocomplete({
 
     const setReference = useCallback(
         (node: HTMLInputElement | null) => {
+            inputElRef.current = node;
             refs.setReference(node);
         },
         [refs]
@@ -65,47 +73,89 @@ export function DestinationAutocomplete({
     const dismiss = useDismiss(context);
     const { getReferenceProps, getFloatingProps } = useInteractions([dismiss]);
 
-    async function loadCountries() {
+    async function loadCountriesCached() {
+        if (countriesCacheRef.current) {
+            setItems(countriesCacheRef.current);
+            return;
+        }
+
         const resp = await api.getCountries();
         const map = (await resp.json()) as Record<string, { id: string; name: string; flag: string }>;
 
-        setItems(
-            Object.values(map).map((c) => ({
-                id: c.id,
-                type: 'country',
-                name: c.name,
-                flag: c.flag,
-            }))
-        );
+        const list: Destination[] = Object.values(map).map((c) => ({
+            id: c.id,
+            type: 'country',
+            name: c.name,
+            flag: c.flag,
+        }));
+
+        countriesCacheRef.current = list;
+        setItems(list);
     }
 
-    async function loadSearch(q: string) {
-        const resp = await api.searchGeo(q);
+    async function loadSearchCached(q: string) {
+        const query = q.trim();
+
+        // empty query -> show countries
+        if (!query) {
+            await loadCountriesCached();
+            return;
+        }
+
+        // minimal threshold (optional but recommended)
+        if (query.length < 2) {
+            setItems([]);
+            return;
+        }
+
+        const cached = searchCacheRef.current.get(query);
+        if (cached) {
+            setItems(cached);
+            return;
+        }
+
+        const myRequestId = ++requestIdRef.current;
+
+        const resp = await api.searchGeo(query);
         const map = (await resp.json()) as Record<string, Destination>;
-        setItems(Object.values(map));
+        const list = Object.values(map);
+
+        // ignore stale responses
+        if (myRequestId !== requestIdRef.current) return;
+
+        searchCacheRef.current.set(query, list);
+        setItems(list);
     }
+
+    const { debounced: debouncedSearch, cancel: cancelDebounce } = useDebouncedCallback(
+        (q: string) => {
+            void loadSearchCached(q);
+        },
+        300
+    );
 
     async function handleOpen() {
         if (disabled) return;
 
         setOpen(true);
+        cancelDebounce();
 
         if (value?.type === 'country' || !value) {
-            await loadCountries();
+            await loadCountriesCached();
             return;
         }
 
-        await loadSearch(inputValue);
+        await loadSearchCached(inputValue);
     }
 
-    async function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
         const next = e.target.value;
         setInputValue(next);
 
         if (value && next !== value.name) onChange(null);
 
         setOpen(true);
-        await loadSearch(next);
+        debouncedSearch(next);
     }
 
     function handleDropdownMouseDown(e: React.MouseEvent<HTMLDivElement>) {
@@ -113,9 +163,13 @@ export function DestinationAutocomplete({
     }
 
     function selectItem(item: Destination) {
+        cancelDebounce();
+
         onChange(item);
         setInputValue(item.name);
         setOpen(false);
+
+        inputElRef.current?.blur();
     }
 
     function handleItemClick(e: React.MouseEvent<HTMLDivElement>) {
@@ -130,6 +184,8 @@ export function DestinationAutocomplete({
     }
 
     function handleClear() {
+        cancelDebounce();
+
         onChange(null);
         setInputValue('');
         setItems([]);
@@ -150,9 +206,14 @@ export function DestinationAutocomplete({
             />
 
             {value && !disabled && (
-                <button type="button" className={styles.clearButton} onClick={handleClear}>
+                <IconButton
+                    aria-label="Clear selection"
+                    size="sm"
+                    className={styles.clearButton}
+                    onClick={handleClear}
+                >
                     ✕
-                </button>
+                </IconButton>
             )}
 
             {open ? (
@@ -176,9 +237,7 @@ export function DestinationAutocomplete({
                                     className={styles.item}
                                 >
                                     <span className={styles.icon}>{renderIcon(it)}</span>
-
                                     <span className={styles.name}>{it.name}</span>
-
                                     <span className={styles.type}>{it.type}</span>
                                 </div>
                             ))}

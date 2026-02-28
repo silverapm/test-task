@@ -12,6 +12,7 @@
   padding: var(--space-2);
   max-height: 320px;
   overflow: auto;
+  z-index: 1;
 }
 
 .empty {

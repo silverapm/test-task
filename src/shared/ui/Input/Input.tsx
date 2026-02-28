@@ -25,7 +25,7 @@ export function Input({
 
     return (
         <div
-            className={clsx(styles.root, fullWidth ? styles.fullWidth : '', className ?? '')}
+            className={clsx(styles.root, fullWidth && styles.fullWidth, className)}
         >
             {label && (
                 <label htmlFor={inputId} className={styles.label}>
