@@ -1,0 +1,36 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.root:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.md {
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+}
+
+.sm {
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
+}
+
+.ghost {
+  color: var(--color-text-muted);
+}
+
+.ghost:hover:not(:disabled) {
+  background: var(--color-hover);
+  color: var(--color-text);
+}

@@ -1,7 +1,16 @@
+@use './variables';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, sans-serif;
-  background: #f4f6f8;
+  font-family: var(--font-family);
+  background: var(--color-bg);
+  color: var(--color-text);
 }
 
 .app {
@@ -10,5 +19,5 @@ body {
 }
 
 .app h1 {
-  color: #2c3e50;
+  color: var(--color-heading);
 }
