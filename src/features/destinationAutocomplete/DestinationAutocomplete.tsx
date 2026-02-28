@@ -101,11 +101,6 @@ export function DestinationAutocomplete({
             return;
         }
 
-        if (query.length < 2) {
-            setItems([]);
-            return;
-        }
-
         const cached = searchCacheRef.current.get(query);
         if (cached) {
             setItems(cached);

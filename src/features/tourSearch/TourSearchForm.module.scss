@@ -3,3 +3,23 @@
   flex-direction: column;
   gap: var(--space-4);
 }
+
+.wrapper {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.loader {
+  padding: var(--space-3);
+  color: var(--color-text-muted);
+}
+
+.error {
+  padding: var(--space-3);
+  color: var(--color-danger);
+}
+
+.empty {
+  padding: var(--space-3);
+  color: var(--color-text-muted);
+}

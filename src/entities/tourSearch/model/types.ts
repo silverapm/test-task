@@ -1,0 +1,28 @@
+import type { Destination } from '../../../features/destinationAutocomplete/types';
+
+export type Currency = 'usd';
+
+export type Price = {
+    id: string;
+    amount: number;
+    currency: Currency;
+    startDate: string;
+    endDate: string;
+    hotelID: number;
+};
+
+export type SearchStatus = 'idle' | 'loading' | 'error' | 'success' | 'empty';
+
+export type SearchCriteria = {
+    destination: Destination;
+};
+
+export type TourSearchState = {
+    status: SearchStatus;
+    criteria: SearchCriteria | null;
+    token: string | null;
+    waitUntil: string | null;
+    pricesById: Record<string, Price>;
+    priceIds: string[];
+    errorMessage: string | null;
+};
