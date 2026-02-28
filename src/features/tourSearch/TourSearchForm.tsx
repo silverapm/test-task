@@ -2,25 +2,23 @@ import { useState } from 'react';
 import { DestinationAutocomplete } from '../destinationAutocomplete/DestinationAutocomplete';
 import { Button } from '../../shared/ui/Button/Button';
 import type { Destination } from '../destinationAutocomplete/types';
+import { TourSearchStatus } from '../../entities/tourSearch/ui/TourSearchStatus.tsx';
+import { TourSearchResults } from '../../entities/tourSearch/ui/TourSearchResults.tsx';
+import { useAppDispatch } from '../../app/hooks';
+import { fetchTourSearch } from '../../entities/tourSearch/model/fetchTourSearch.ts';
 import styles from './TourSearchForm.module.scss';
-
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { tourSearchActions } from '../../entities/tourSearch/model/tourSearchSlice';
-import { selectTourSearch } from '../../entities/tourSearch/model/selectors';
 
 export function TourSearchForm() {
     const [destination, setDestination] = useState<Destination | null>(null);
 
     const dispatch = useAppDispatch();
-    const { status, errorMessage } = useAppSelector(selectTourSearch);
-
     const canSubmit = Boolean(destination);
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (!destination) return;
 
-        dispatch(tourSearchActions.start({ destination }));
+        dispatch(fetchTourSearch({ destination }));
     }
 
     return (
@@ -38,13 +36,8 @@ export function TourSearchForm() {
                 </Button>
             </form>
 
-            {status === 'loading' ? <div className={styles.loader}>Loading…</div> : null}
-            {status === 'error' && errorMessage ? (
-                <div className={styles.error}>{errorMessage}</div>
-            ) : null}
-            {status === 'empty' ? (
-                <div className={styles.empty}>За вашим запитом турів не знайдено</div>
-            ) : null}
+            <TourSearchStatus />
+            <TourSearchResults />
         </div>
     );
 }

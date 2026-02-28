@@ -1,13 +1,17 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { Price, SearchCriteria, TourSearchState } from './types';
+import { createSlice } from '@reduxjs/toolkit';
+import type { TourSearchState } from './types';
+import { fetchTourSearch } from './fetchTourSearch.ts';
 
 const initialState: TourSearchState = {
     status: 'idle',
     criteria: null,
+
     token: null,
     waitUntil: null,
+
     pricesById: {},
     priceIds: [],
+
     errorMessage: null,
 };
 
@@ -15,45 +19,45 @@ export const tourSearchSlice = createSlice({
     name: 'tourSearch',
     initialState,
     reducers: {
-        reset(state) {
-            state.status = 'idle';
-            state.criteria = null;
-            state.token = null;
-            state.waitUntil = null;
-            state.pricesById = {};
-            state.priceIds = [];
-            state.errorMessage = null;
+        reset() {
+            return initialState;
         },
-
-        start(state, action: PayloadAction<SearchCriteria>) {
-            state.status = 'loading';
-            state.criteria = action.payload;
-            state.errorMessage = null;
-            state.token = null;
-            state.waitUntil = null;
-            state.pricesById = {};
-            state.priceIds = [];
-        },
-
-        setError(state, action: PayloadAction<string>) {
-            state.status = 'error';
-            state.errorMessage = action.payload;
-        },
-
-        setResults(state, action: PayloadAction<Price[]>) {
-            const list = action.payload;
-
-            if (list.length === 0) {
-                state.status = 'empty';
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchTourSearch.pending, (state, action) => {
+                state.status = 'loading';
+                state.errorMessage = null;
+                state.criteria = { destination: action.meta.arg.destination };
+                state.token = null;
+                state.waitUntil = null;
                 state.pricesById = {};
                 state.priceIds = [];
-                return;
-            }
+            })
+            .addCase(fetchTourSearch.fulfilled, (state, action) => {
+                state.token = action.payload.token;
+                state.waitUntil = action.payload.waitUntil;
 
-            state.status = 'success';
-            state.pricesById = Object.fromEntries(list.map((p) => [p.id, p]));
-            state.priceIds = list.map((p) => p.id);
-        },
+                const list = action.payload.prices;
+
+                if (list.length === 0) {
+                    state.status = 'empty';
+                    state.pricesById = {};
+                    state.priceIds = [];
+                    return;
+                }
+
+                state.status = 'success';
+                state.pricesById = Object.fromEntries(list.map((p) => [p.id, p]));
+                state.priceIds = list.map((p) => p.id);
+            })
+            .addCase(fetchTourSearch.rejected, (state, action) => {
+                const msg = action.payload;
+
+                if (msg === 'SKIP_SAME_CRITERIA') return;
+                state.status = 'error';
+                state.errorMessage = msg ?? 'Search failed.';
+            });
     },
 });
 
