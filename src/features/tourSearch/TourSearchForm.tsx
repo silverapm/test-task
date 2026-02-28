@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { DestinationAutocomplete } from '../destinationAutocomplete/DestinationAutocomplete';
-import type { Destination } from '../destinationAutocomplete/DestinationAutocomplete';
+import type { Destination } from '../destinationAutocomplete/types.ts';
+import styles from './TourSearchForm.module.scss';
 
 export function TourSearchForm() {
     const [destination, setDestination] = useState<Destination | null>(null);
@@ -13,7 +14,7 @@ export function TourSearchForm() {
     return (
         <form
             onSubmit={handleSubmit}
-            style={{ display: 'grid', gap: 12 }}
+            className={styles.root}
         >
             <DestinationAutocomplete
                 value={destination}
@@ -22,7 +23,7 @@ export function TourSearchForm() {
                 placeholder="Click or type…"
             />
 
-            <button type="submit" style={{ height: 40 }}>
+            <button type="submit">
                 Знайти
             </button>
         </form>

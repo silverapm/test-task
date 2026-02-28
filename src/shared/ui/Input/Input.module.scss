@@ -1,7 +1,7 @@
 .root {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--space-2);
 }
 
 .fullWidth {
@@ -9,24 +9,27 @@
 }
 
 .label {
-  color: #334155;
+  color: var(--color-text-label);
 }
 
 .input {
   width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #cbd5e1;
-  border-radius: 10px;
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
 }
 
 .input:focus {
-  border-color: #94a3b8;
+  border-color: var(--color-border-focus);
+  outline: none;
 }
 
-.hint {
-  color: #64748b;
+.input:focus-visible {
+  outline-offset: 2px;
 }
 
 .error {
-  color: #b91c1c;
+  color: var(--color-danger);
 }

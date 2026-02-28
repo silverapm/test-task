@@ -1,4 +1,5 @@
 import { useId } from 'react';
+import clsx from "clsx";
 import styles from './Input.module.scss';
 
 type NativeProps = React.ComponentPropsWithoutRef<'input'>;
@@ -24,11 +25,7 @@ export function Input({
 
     return (
         <div
-            className={[
-                styles.root,
-                fullWidth ? styles.fullWidth : '',
-                className ?? '',
-            ].join(' ')}
+            className={clsx(styles.root, fullWidth ? styles.fullWidth : '', className ?? '')}
         >
             {label && (
                 <label htmlFor={inputId} className={styles.label}>

@@ -11,29 +11,23 @@ import {
 
 import { Input } from '../../shared/ui/Input/Input';
 import * as api from '../../shared/api/api.js';
+import type { Destination, DestinationAutocompleteProps } from './types';
 import styles from './DestinationAutocomplete.module.scss';
 
-export type DestinationType = 'country' | 'city' | 'hotel';
+function renderIcon(item: Destination) {
+    if (item.flag) return <img src={item.flag} alt="" className={styles.flag} />;
 
-export type Destination = {
-    id: string | number;
-    type: DestinationType;
-    name: string;
-    flag?: string;
-    countryId?: string;
-    cityId?: number;
-    countryName?: string;
-    cityName?: string;
-    img?: string;
-};
-
-export type DestinationAutocompleteProps = {
-    value: Destination | null;
-    onChange: (next: Destination | null) => void;
-    label?: string;
-    placeholder?: string;
-    disabled?: boolean;
-};
+    switch (item.type) {
+        case 'country':
+            return '🌍';
+        case 'city':
+            return '🏙️';
+        case 'hotel':
+            return '🏨';
+        default:
+            return null;
+    }
+}
 
 export function DestinationAutocomplete({
     value,
@@ -104,7 +98,8 @@ export function DestinationAutocomplete({
         await loadSearch(inputValue);
     }
 
-    async function handleChange(next: string) {
+    async function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const next = e.target.value;
         setInputValue(next);
 
         if (value && next !== value.name) onChange(null);
@@ -113,30 +108,28 @@ export function DestinationAutocomplete({
         await loadSearch(next);
     }
 
+    function handleDropdownMouseDown(e: React.MouseEvent<HTMLDivElement>) {
+        e.preventDefault();
+    }
+
     function selectItem(item: Destination) {
         onChange(item);
         setInputValue(item.name);
         setOpen(false);
     }
 
-    function renderIcon(item: Destination) {
-        if (item.flag) {
-            return <img src={item.flag} alt="" className={styles.flag} />;
-        }
+    function handleItemClick(e: React.MouseEvent<HTMLDivElement>) {
+        const idxStr = e.currentTarget.dataset.index;
+        const idx = idxStr ? Number(idxStr) : NaN;
+        if (!Number.isFinite(idx)) return;
 
-        switch (item.type) {
-            case 'country':
-                return '🌍';
-            case 'city':
-                return '🏙️';
-            case 'hotel':
-                return '🏨';
-            default:
-                return null;
-        }
+        const item = items[idx];
+        if (!item) return;
+
+        selectItem(item);
     }
 
-    function clearSelection() {
+    function handleClear() {
         onChange(null);
         setInputValue('');
         setItems([]);
@@ -145,25 +138,22 @@ export function DestinationAutocomplete({
 
     return (
         <div className={styles.root}>
-            <div className={styles.field}>
-                <Input
-                    label={label}
-                    placeholder={placeholder}
-                    disabled={disabled}
-                    value={inputValue}
-                    onChange={(e) => void handleChange(e.target.value)}
-                    onFocus={() => void handleOpen()}
-                    inputRef={setReference}
-                    {...getReferenceProps()}
-                    className={styles.inputWithClear}
-                />
+            <Input
+                label={label}
+                placeholder={placeholder}
+                disabled={disabled}
+                value={inputValue}
+                onChange={handleInputChange}
+                onFocus={handleOpen}
+                inputRef={setReference}
+                {...getReferenceProps()}
+            />
 
-                {value && !disabled && (
-                    <button type="button" className={styles.clearButton} onClick={clearSelection}>
-                        ✕
-                    </button>
-                )}
-            </div>
+            {value && !disabled && (
+                <button type="button" className={styles.clearButton} onClick={handleClear}>
+                    ✕
+                </button>
+            )}
 
             {open ? (
                 <div
@@ -171,17 +161,18 @@ export function DestinationAutocomplete({
                     className={styles.dropdown}
                     style={floatingStyles}
                     {...getFloatingProps({
-                        onMouseDown: (e) => e.preventDefault(),
+                        onMouseDown: handleDropdownMouseDown,
                     })}
                 >
                     {items.length === 0 ? (
                         <div className={styles.empty}>No results</div>
                     ) : (
                         <div className={styles.list}>
-                            {items.map((it) => (
+                            {items.map((it, index) => (
                                 <div
                                     key={`${it.type}-${String(it.id)}`}
-                                    onClick={() => selectItem(it)}
+                                    data-index={index}
+                                    onClick={handleItemClick}
                                     className={styles.item}
                                 >
                                     <span className={styles.icon}>{renderIcon(it)}</span>
