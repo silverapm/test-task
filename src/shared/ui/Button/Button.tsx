@@ -1,35 +1,32 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import clsx from 'clsx';
 import styles from './Button.module.scss';
 
-type NativeProps = ButtonHTMLAttributes<HTMLButtonElement>;
+type NativeButtonProps = React.ComponentPropsWithoutRef<'button'>;
 
-export type ButtonProps = NativeProps & {
-    children: ReactNode;
-    variant?: 'primary';
+export type ButtonVariant = 'primary' | 'secondary' | 'link';
+
+export type ButtonProps = NativeButtonProps & {
+    variant?: ButtonVariant;
     fullWidth?: boolean;
 };
 
 export function Button({
-    children,
     variant = 'primary',
-    fullWidth = false,
+    fullWidth,
     className,
-    disabled,
+    type = 'button',
     ...rest
 }: ButtonProps) {
     return (
         <button
+            type={type}
             className={clsx(
                 styles.root,
                 styles[variant],
                 fullWidth && styles.fullWidth,
                 className
             )}
-            disabled={disabled}
             {...rest}
-        >
-            {children}
-        </button>
+        />
     );
 }
