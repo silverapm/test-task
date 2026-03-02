@@ -1,0 +1,32 @@
+.panel {
+  padding: var(--space-3);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  display: grid;
+  gap: var(--space-2);
+}
+
+.title {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.meta {
+  color: var(--color-text-muted);
+}
+
+.error {
+  padding: var(--space-3);
+  color: var(--color-danger);
+}
+
+.empty {
+  padding: var(--space-3);
+  color: var(--color-text-muted);
+}
+
+.success {
+  padding: var(--space-3);
+  color: var(--color-success);
+}

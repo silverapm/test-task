@@ -1,90 +1,40 @@
 .root {
-  width: var(--tour-results-width);
-  margin: 0 auto;
-  padding: var(--tour-results-padding);
-}
-
-.grid {
   display: grid;
-  gap: var(--space-4);
-  grid-template-columns: repeat(auto-fit, minmax(var(--tour-grid-min-card-width), 1fr));
-}
-
-.card {
-  border: 1px solid var(--color-border-soft);
-  border-radius: var(--radius-lg);
-  background: var(--color-surface);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  display: grid;
-}
-
-.image {
-  width: 100%;
-  height: var(--tour-card-image-height);
-  object-fit: cover;
-  display: block;
-}
-
-.imagePlaceholder {
-  width: 100%;
-  height: var(--tour-card-image-height);
-  background: var(--color-hover);
-}
-
-.body {
-  padding: var(--space-4);
-  display: grid;
-  gap: var(--space-2);
+  gap: var(--space-3);
 }
 
 .title {
-  font-size: var(--tour-title-font-size);
+  font-size: 18px;
   font-weight: 700;
   color: var(--color-text);
 }
 
-.location {
-  color: var(--color-text-muted);
+.list {
+  display: grid;
+  gap: var(--space-3);
 }
 
-.metaRow {
+.card {
+  padding: var(--space-3);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  display: grid;
+  gap: var(--space-2);
+}
+
+.row {
   display: flex;
   justify-content: space-between;
   gap: var(--space-3);
 }
 
-.metaLabel {
+.label {
   color: var(--color-text-muted);
 }
 
-.metaValue {
+.value {
   color: var(--color-text);
   font-weight: 600;
-}
-
-.linkButton {
-  margin-top: var(--space-2);
-  padding: 0;
-  border: none;
-  background: transparent;
-  color: var(--color-primary);
-  cursor: pointer;
-  text-align: left;
-}
-
-.linkButton:hover {
-  text-decoration: underline;
-}
-
-.empty {
-  padding: var(--space-4);
-  color: var(--color-text-muted);
-  text-align: center;
-}
-
-.loader {
-  display: flex;
-  justify-content: center;
-  padding: var(--space-6) 0;
 }
