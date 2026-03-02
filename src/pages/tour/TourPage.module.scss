@@ -1,0 +1,35 @@
+.root {
+  max-width: var(--results-width);
+  margin: 0 auto;
+  padding: var(--results-padding);
+  display: grid;
+  gap: var(--space-4);
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-6) 0;
+}
+
+.error {
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  background: var(--color-surface);
+  display: grid;
+  gap: var(--space-3);
+}
+
+.errorTitle {
+  font-weight: 800;
+}
+
+.errorText {
+  color: var(--color-text-muted);
+}
+
+.backButton {
+  align-self: flex-start;
+  margin-bottom: var(--space-3);
+}

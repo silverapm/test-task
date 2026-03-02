@@ -1,0 +1,73 @@
+.card {
+  border: var(--card-border-width) solid var(--color-border-soft);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-surface);
+  display: flex;
+  flex-direction: column;
+}
+
+.image {
+  width: 100%;
+  height: var(--card-image-height);
+  object-fit: cover;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: var(--card-image-height);
+  background: var(--color-surface-muted);
+}
+
+.body {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.title {
+  font-size: var(--title-font-size);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.location {
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+.meta {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.metaRow {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.metaLabel {
+  color: var(--color-text-muted);
+  font-size: 12px;
+}
+
+.metaValue {
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 12px;
+  text-align: right;
+}
+
+.action {
+  align-self: flex-start;
+  padding: 0;
+}
+
+.services {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
