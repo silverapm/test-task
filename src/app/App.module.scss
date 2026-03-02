@@ -1,0 +1,15 @@
+.root {
+  display: grid;
+  gap: var(--space-6);
+  padding: var(--space-6);
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.main {
+  display: grid;
+  gap: var(--space-4);
+}

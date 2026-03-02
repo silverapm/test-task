@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { DestinationAutocomplete } from '../destinationAutocomplete/DestinationAutocomplete';
 import { Button } from '../../shared/ui/Button/Button';
 import type { Destination } from '../destinationAutocomplete/types';
-import { TourSearchStatus } from '../../entities/tourSearch/ui/TourSearchStatus.tsx';
-import { TourSearchResults } from '../../entities/tourSearch/ui/TourSearchResults.tsx';
 import { useAppDispatch } from '../../app/hooks';
 import { fetchTourSearch } from '../../entities/tourSearch/model/fetchTourSearch.ts';
 import styles from './TourSearchForm.module.scss';
@@ -35,9 +33,6 @@ export function TourSearchForm() {
                     Знайти
                 </Button>
             </form>
-
-            <TourSearchStatus />
-            <TourSearchResults />
         </div>
     );
 }

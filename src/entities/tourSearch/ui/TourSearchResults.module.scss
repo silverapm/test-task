@@ -1,40 +1,90 @@
 .root {
-  display: grid;
-  gap: var(--space-3);
+  width: var(--tour-results-width);
+  margin: 0 auto;
+  padding: var(--tour-results-padding);
 }
 
-.title {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--color-text);
-}
-
-.list {
+.grid {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fit, minmax(var(--tour-grid-min-card-width), 1fr));
 }
 
 .card {
-  padding: var(--space-3);
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-lg);
   background: var(--color-surface);
+  overflow: hidden;
   box-shadow: var(--shadow-sm);
+  display: grid;
+}
+
+.image {
+  width: 100%;
+  height: var(--tour-card-image-height);
+  object-fit: cover;
+  display: block;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: var(--tour-card-image-height);
+  background: var(--color-hover);
+}
+
+.body {
+  padding: var(--space-4);
   display: grid;
   gap: var(--space-2);
 }
 
-.row {
+.title {
+  font-size: var(--tour-title-font-size);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.location {
+  color: var(--color-text-muted);
+}
+
+.metaRow {
   display: flex;
   justify-content: space-between;
   gap: var(--space-3);
 }
 
-.label {
+.metaLabel {
   color: var(--color-text-muted);
 }
 
-.value {
+.metaValue {
   color: var(--color-text);
   font-weight: 600;
+}
+
+.linkButton {
+  margin-top: var(--space-2);
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-primary);
+  cursor: pointer;
+  text-align: left;
+}
+
+.linkButton:hover {
+  text-decoration: underline;
+}
+
+.empty {
+  padding: var(--space-4);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-6) 0;
 }
