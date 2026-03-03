@@ -1,0 +1,104 @@
+.card {
+  background: var(--color-surface);
+  border: var(--card-border-width, 1px) solid var(--color-border-soft);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: var(--card-image-height, 140px);
+  background: var(--color-hover);
+}
+
+.body {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.title {
+  font-size: var(--title-font-size, 16px);
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.location {
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.description {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.serviceTag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--color-hover);
+  color: var(--color-text);
+  font-size: 12px;
+  border: 1px solid var(--color-border-soft);
+}
+
+.serviceIcon {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 16px;
+  color: var(--color-text-muted);
+}
+
+.meta {
+  margin: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.metaRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
+.metaLabel {
+  color: var(--color-text-muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.metaValue {
+  color: var(--color-text);
+  font-size: 14px;
+  font-weight: 500;
+  text-align: right;
+}
+
+.action {
+  padding: 0;
+  justify-content: flex-start;
+}
