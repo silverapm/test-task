@@ -1,15 +1,22 @@
 .root {
   display: grid;
-  gap: var(--space-6);
-  padding: var(--space-6);
+  padding: 40px;
 }
 
 .header {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
 }
 
 .main {
   display: grid;
   gap: var(--space-4);
+}
+
+.heroHeading {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-relaxed);
+  width: 100%;
+  text-align: center;
 }

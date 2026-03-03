@@ -1,5 +1,6 @@
 .root {
-  width: var(--tour-results-width);
+  max-width: var(--tour-results-width);
+  width: 100%;
   margin: 0 auto;
   padding: var(--tour-results-padding);
 }
@@ -7,74 +8,18 @@
 .grid {
   display: grid;
   gap: var(--space-4);
-  grid-template-columns: repeat(auto-fit, minmax(var(--tour-grid-min-card-width), 1fr));
-}
 
-.card {
-  border: 1px solid var(--color-border-soft);
-  border-radius: var(--radius-lg);
-  background: var(--color-surface);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  display: grid;
-}
+  grid-template-columns: repeat(
+    auto-fit, minmax(var(--tour-grid-min-card-width), var(--tour-grid-max-card-width))
+  );
 
-.image {
-  width: 100%;
-  height: var(--tour-card-image-height);
-  object-fit: cover;
-  display: block;
-}
-
-.imagePlaceholder {
-  width: 100%;
-  height: var(--tour-card-image-height);
-  background: var(--color-hover);
+  justify-content: center;
 }
 
 .body {
   padding: var(--space-4);
   display: grid;
   gap: var(--space-2);
-}
-
-.title {
-  font-size: var(--tour-title-font-size);
-  font-weight: 700;
-  color: var(--color-text);
-}
-
-.location {
-  color: var(--color-text-muted);
-}
-
-.metaRow {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--space-3);
-}
-
-.metaLabel {
-  color: var(--color-text-muted);
-}
-
-.metaValue {
-  color: var(--color-text);
-  font-weight: 600;
-}
-
-.linkButton {
-  margin-top: var(--space-2);
-  padding: 0;
-  border: none;
-  background: transparent;
-  color: var(--color-primary);
-  cursor: pointer;
-  text-align: left;
-}
-
-.linkButton:hover {
-  text-decoration: underline;
 }
 
 .empty {

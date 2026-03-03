@@ -11,7 +11,7 @@ export type Price = {
     hotelID: number;
 };
 
-export type SearchStatus = 'idle' | 'loading' | 'error' | 'success' | 'empty';
+export type SearchStatus = 'idle' | 'loading' | 'error' | 'success' | 'empty' | 'cancelling';
 
 export type SearchCriteria = {
     destination: Destination;
@@ -25,4 +25,5 @@ export type TourSearchState = {
     pricesById: Record<string, Price>;
     priceIds: string[];
     errorMessage: string | null;
+    activeRequestId: string | null;
 };
