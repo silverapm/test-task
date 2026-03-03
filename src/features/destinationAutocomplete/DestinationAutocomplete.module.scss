@@ -3,18 +3,6 @@
   width: 100%;
 }
 
-.dropdown {
-  width: 100%;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border-soft);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-dropdown);
-  padding: var(--space-2);
-  max-height: 320px;
-  overflow: auto;
-  z-index: 1;
-}
-
 .empty {
   padding: var(--space-5);
   color: var(--color-text-muted);

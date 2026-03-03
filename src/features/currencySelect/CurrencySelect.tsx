@@ -14,8 +14,6 @@ export function CurrencySelect() {
 
     return (
         <div className={styles.root}>
-            <span className={styles.label}>Currency</span>
-
             <select
                 value={value}
                 onChange={handleChange}

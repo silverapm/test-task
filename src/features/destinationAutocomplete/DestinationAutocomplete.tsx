@@ -12,9 +12,18 @@ import {
 import { useDebouncedCallback } from '../../shared/hooks/useDebouncedCallback';
 import { Input } from '../../shared/ui/Input/Input';
 import { IconButton } from '../../shared/ui/IconButton/IconButton';
-import * as api from '../../shared/api/api.js';
-import type { Destination, DestinationAutocompleteProps } from './types';
+import { useDestinationSearch } from '../../entities/destination/model/useDestinationSearch';
+import { FloatingDropdown } from '../../shared/ui/FloatingDropdown/FloatingDropdown';
+import type { Destination } from '../../entities/destination/model/types';
 import styles from './DestinationAutocomplete.module.scss';
+
+type DestinationAutocompleteProps = {
+    value: Destination | null;
+    onChange: (next: Destination | null) => void;
+    label?: string;
+    placeholder?: string;
+    disabled?: boolean;
+};
 
 function renderIcon(item: Destination) {
     if (item.flag) return <img src={item.flag} alt="" className={styles.flag} />;
@@ -39,13 +48,10 @@ export function DestinationAutocomplete({
     disabled = false,
 }: DestinationAutocompleteProps) {
     const [open, setOpen] = useState(false);
-    const [items, setItems] = useState<Destination[]>([]);
     const [inputValue, setInputValue] = useState(value?.name ?? '');
     const inputElRef = useRef<HTMLInputElement | null>(null);
 
-    const countriesCacheRef = useRef<Destination[] | null>(null);
-    const searchCacheRef = useRef<Map<string, Destination[]>>(new Map());
-    const requestIdRef = useRef(0);
+    const { items, loadCountriesCached, loadSearchCached, clearSuggestions } = useDestinationSearch();
 
     const { refs, floatingStyles, context } = useFloating<HTMLInputElement>({
         open,
@@ -72,52 +78,6 @@ export function DestinationAutocomplete({
 
     const dismiss = useDismiss(context);
     const { getReferenceProps, getFloatingProps } = useInteractions([dismiss]);
-
-    async function loadCountriesCached() {
-        if (countriesCacheRef.current) {
-            setItems(countriesCacheRef.current);
-            return;
-        }
-
-        const resp = await api.getCountries();
-        const map = (await resp.json()) as Record<string, { id: string; name: string; flag: string }>;
-
-        const list: Destination[] = Object.values(map).map((c) => ({
-            id: c.id,
-            type: 'country',
-            name: c.name,
-            flag: c.flag,
-        }));
-
-        countriesCacheRef.current = list;
-        setItems(list);
-    }
-
-    async function loadSearchCached(q: string) {
-        const query = q.trim();
-
-        if (!query) {
-            await loadCountriesCached();
-            return;
-        }
-
-        const cached = searchCacheRef.current.get(query);
-        if (cached) {
-            setItems(cached);
-            return;
-        }
-
-        const myRequestId = ++requestIdRef.current;
-
-        const resp = await api.searchGeo(query);
-        const map = (await resp.json()) as Record<string, Destination>;
-        const list = Object.values(map);
-
-        if (myRequestId !== requestIdRef.current) return;
-
-        searchCacheRef.current.set(query, list);
-        setItems(list);
-    }
 
     const { debounced: debouncedSearch, cancel: cancelDebounce } = useDebouncedCallback(
         (q: string) => {
@@ -180,7 +140,7 @@ export function DestinationAutocomplete({
 
         onChange(null);
         setInputValue('');
-        setItems([]);
+        clearSuggestions();
         setOpen(false);
     }
 
@@ -208,37 +168,35 @@ export function DestinationAutocomplete({
                 </IconButton>
             )}
 
-            {open ? (
-                <div
-                    ref={setFloating}
-                    className={styles.dropdown}
-                    style={floatingStyles}
-                    {...getFloatingProps({
-                        onMouseDown: handleDropdownMouseDown,
-                    })}
-                >
-                    {items.length === 0 ? (
-                        <div className={styles.empty}>No results</div>
-                    ) : (
-                        <div className={styles.list}>
-                            {items.map((it, index) => (
-                                <div
-                                    key={`${it.type}-${String(it.id)}`}
-                                    data-index={index}
-                                    onClick={handleItemClick}
-                                    className={styles.item}
-                                >
-                                    <span className={styles.icon}>{renderIcon(it)}</span>
+            <FloatingDropdown
+                open={open}
+                setFloating={setFloating}
+                floatingStyles={floatingStyles}
+                getFloatingProps={getFloatingProps}
+                onMouseDown={handleDropdownMouseDown}
+                className={styles.dropdown}
+            >
+                {items.length === 0 ? (
+                    <div className={styles.empty}>No results</div>
+                ) : (
+                    <div className={styles.list}>
+                        {items.map((it, index) => (
+                            <div
+                                key={`${it.type}-${String(it.id)}`}
+                                data-index={index}
+                                onClick={handleItemClick}
+                                className={styles.item}
+                            >
+                                <span className={styles.icon}>{renderIcon(it)}</span>
 
-                                    <span className={styles.name}>{it.name}</span>
+                                <span className={styles.name}>{it.name}</span>
 
-                                    <span className={styles.type}>{it.type}</span>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
-            ) : null}
+                                <span className={styles.type}>{it.type}</span>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </FloatingDropdown>
         </div>
     );
 }

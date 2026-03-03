@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import * as api from '../../../shared/api/api.js';
 import type { RootState } from '../../../app/store';
-import type { Destination } from '../../../features/destinationAutocomplete/types';
+import type { Destination } from '../../destination/model/types';
 import { getCountryId } from '../../../shared/utils/destination';
 import { parseJson } from '../../../shared/utils/api';
 import type { Price } from './types';

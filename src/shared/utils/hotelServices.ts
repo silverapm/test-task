@@ -20,3 +20,7 @@ export const HOTEL_SERVICE_ICONS: Record<HotelServiceKey, string> = {
     laundry: '🧺',
     parking: '🅿️',
 };
+
+export const isYesService = (value: string) => {
+    return String(value).toLowerCase() === 'yes';
+}

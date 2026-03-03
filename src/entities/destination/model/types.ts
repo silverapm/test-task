@@ -11,11 +11,3 @@ export type Destination = {
     cityName?: string;
     img?: string;
 };
-
-export type DestinationAutocompleteProps = {
-    value: Destination | null;
-    onChange: (next: Destination | null) => void;
-    label?: string;
-    placeholder?: string;
-    disabled?: boolean;
-};

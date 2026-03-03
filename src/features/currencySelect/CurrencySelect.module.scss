@@ -1,12 +1,7 @@
 .root {
   display: grid;
-  gap: var(--space-2);
+  margin: var(--space-5) 0;
   width: 200px;
-}
-
-.label {
-  font-size: 14px;
-  color: var(--color-text-muted);
 }
 
 .select {
@@ -16,7 +11,7 @@
   border: 1px solid var(--color-border-soft);
   background: var(--color-surface);
   color: var(--color-text);
-  font-size: 14px;
+  font-size: var(--font-size-sm);
 }
 
 .select:focus {
