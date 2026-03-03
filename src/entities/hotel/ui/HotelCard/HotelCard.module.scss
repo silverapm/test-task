@@ -1,12 +1,18 @@
 .card {
   background: var(--color-surface);
-  border: var(--card-border-width, 1px) solid var(--color-border-soft);
+  border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-lg);
   overflow: hidden;
 }
 
+.imageWrapper {
+  width: 100%;
+  padding: 16px 16px 0;
+}
+
 .image {
   width: 100%;
+  border-radius: var(--radius-md);
   object-fit: cover;
   display: block;
 }
@@ -50,15 +56,7 @@
 }
 
 .serviceTag {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: var(--color-hover);
-  color: var(--color-text);
-  font-size: 12px;
-  border: 1px solid var(--color-border-soft);
+  margin-right: 10px;
 }
 
 .serviceIcon {
@@ -69,6 +67,7 @@
   justify-content: center;
   flex: 0 0 16px;
   color: var(--color-text-muted);
+  margin-right: 5px;
 }
 
 .meta {
@@ -84,17 +83,23 @@
   gap: var(--space-3);
 }
 
-.metaLabel {
+.datesLabel {
   color: var(--color-text-muted);
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   text-transform: uppercase;
-  letter-spacing: 0.03em;
 }
 
-.metaValue {
+.datesValue {
   color: var(--color-text);
-  font-size: 14px;
-  font-weight: 500;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  text-align: right;
+}
+
+.priceValue {
+  color: var(--color-text);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
   text-align: right;
 }
 

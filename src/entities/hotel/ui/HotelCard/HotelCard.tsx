@@ -7,19 +7,12 @@ type HotelServices = Record<string, string>;
 type HotelCardProps = {
     title: string;
     location: string;
-
     imageUrl?: string | null;
-
-    // hotel details (optional)
     description?: string;
     services?: HotelServices;
-
-    // tour / price details (optional)
     startDate?: string;
     endDate?: string;
     priceLabel?: string;
-
-    // optional action
     actionText?: string;
     onAction?: () => void;
 };
@@ -54,14 +47,17 @@ export function HotelCard({
 
     return (
         <article className={styles.card}>
-            {imageUrl ? (
-                <img src={imageUrl} alt="" className={styles.image} />
-            ) : (
-                <div className={styles.imagePlaceholder} />
-            )}
+            <div className={styles.imageWrapper}>
+                {imageUrl ? (
+                    <img src={imageUrl} alt="" className={styles.image} />
+                ) : (
+                    <div className={styles.imagePlaceholder} />
+                )}
+            </div>
 
             <div className={styles.body}>
                 <h3 className={styles.title}>{title}</h3>
+
                 <div className={styles.location}>{location}</div>
 
                 {description ? <p className={styles.description}>{description}</p> : null}
@@ -69,7 +65,7 @@ export function HotelCard({
                 {hasServices ? (
                     <div className={styles.services}>
                         {servicesYes.map(([key]) => (
-                            <span key={key}>
+                            <span key={key} className={styles.serviceTag}>
                                 <span className={styles.serviceIcon} aria-hidden="true">
                                     {HOTEL_SERVICE_ICONS[key as keyof typeof HOTEL_SERVICE_ICONS] ?? '•'}
                                 </span>
@@ -84,8 +80,9 @@ export function HotelCard({
                     <dl className={styles.meta}>
                         {hasDates ? (
                             <div className={styles.metaRow}>
-                                <dt className={styles.metaLabel}>Dates</dt>
-                                <dd className={styles.metaValue}>
+                                <dt className={styles.datesLabel}>Dates</dt>
+
+                                <dd className={styles.datesValue}>
                                     {startDate} → {endDate}
                                 </dd>
                             </div>
@@ -93,8 +90,7 @@ export function HotelCard({
 
                         {hasPrice ? (
                             <div className={styles.metaRow}>
-                                <dt className={styles.metaLabel}>Price</dt>
-                                <dd className={styles.metaValue}>{priceLabel}</dd>
+                                <dd className={styles.priceValue}>{priceLabel}</dd>
                             </div>
                         ) : null}
                     </dl>

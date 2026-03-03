@@ -1,18 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { TourSearchState } from './types';
-import { fetchTourSearch } from './fetchTourSearch.ts';
+import { fetchTourSearch } from './fetchTourSearch';
 
 const initialState: TourSearchState = {
     status: 'idle',
     criteria: null,
-
     token: null,
     waitUntil: null,
-
     pricesById: {},
     priceIds: [],
-
     errorMessage: null,
+    activeRequestId: null,
 };
 
 export const tourSearchSlice = createSlice({
@@ -20,8 +18,13 @@ export const tourSearchSlice = createSlice({
     initialState,
     reducers: {
         reset() {
-            return initialState;
+            return {...initialState};
         },
+        markCancelling(state) {
+            if (state.status === 'loading') {
+                state.status = 'cancelling';
+            }
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -33,8 +36,11 @@ export const tourSearchSlice = createSlice({
                 state.waitUntil = null;
                 state.pricesById = {};
                 state.priceIds = [];
+                state.activeRequestId = action.meta.requestId;
             })
             .addCase(fetchTourSearch.fulfilled, (state, action) => {
+                if (state.activeRequestId !== action.meta.requestId) return;
+
                 state.token = action.payload.token;
                 state.waitUntil = action.payload.waitUntil;
 
@@ -52,6 +58,8 @@ export const tourSearchSlice = createSlice({
                 state.priceIds = list.map((p) => p.id);
             })
             .addCase(fetchTourSearch.rejected, (state, action) => {
+                if (state.activeRequestId !== action.meta.requestId) return;
+
                 const msg = action.payload;
 
                 if (msg === 'SKIP_SAME_CRITERIA') return;

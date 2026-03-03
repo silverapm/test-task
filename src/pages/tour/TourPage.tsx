@@ -144,16 +144,18 @@ export function TourPage() {
                 ← Back to search
             </Button>
 
-            <HotelCard
-                title={hotel.name}
-                location={location}
-                imageUrl={hotel.img ?? null}
-                description={hotel.description}
-                services={hotel.services}
-                startDate={`${formatDateDdMmYyyy(price.startDate)}`}
-                endDate={`${formatDateDdMmYyyy(price.endDate)}`}
-                priceLabel={formatMoney(convertMoney(price.amount, 'usd', currency), currency)}
-            />
+            <div className={styles.cardWrapper}>
+                <HotelCard
+                    title={hotel.name}
+                    location={location}
+                    imageUrl={hotel.img ?? null}
+                    description={hotel.description}
+                    services={hotel.services}
+                    startDate={`${formatDateDdMmYyyy(price.startDate)}`}
+                    endDate={`${formatDateDdMmYyyy(price.endDate)}`}
+                    priceLabel={formatMoney(convertMoney(price.amount, 'usd', currency), currency)}
+                />
+            </div>
         </div>
     );
 }

@@ -6,6 +6,14 @@
   gap: var(--space-4);
 }
 
+.cardWrapper {
+  max-width: var(--tour-results-width);
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
 .loader {
   display: flex;
   justify-content: center;

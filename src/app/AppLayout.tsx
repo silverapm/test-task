@@ -6,10 +6,8 @@ export function AppLayout() {
     return (
         <div className={styles.root}>
             <header className={styles.header}>
-                <div>
-                    <h1>Tour search</h1>
-                    <CurrencySelect />
-                </div>
+                <h1 className={styles.heroHeading}>Tour search</h1>
+                <CurrencySelect />
             </header>
 
             <main className={styles.main}>
