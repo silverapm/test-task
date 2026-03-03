@@ -40,9 +40,20 @@ export function TourSearchForm() {
         activeRequestRef.current = dispatch(fetchTourSearch({ destination })) as AbortableRequest;
     }
 
+    function handleKeyDown(e: React.KeyboardEvent<HTMLFormElement>) {
+        if (e.key === 'Enter' && canSubmit) {
+            e.preventDefault();
+            e.currentTarget.requestSubmit();
+        }
+    }
+
     return (
         <div className={styles.wrapper}>
-            <form onSubmit={handleSubmit} className={styles.root}>
+            <form
+                onSubmit={handleSubmit}
+                className={styles.root}
+                onKeyDown={handleKeyDown}
+            >
                 <DestinationAutocomplete
                     value={destination}
                     onChange={setDestination}
