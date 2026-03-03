@@ -120,8 +120,6 @@ export function DestinationAutocomplete({
         onChange(item);
         setInputValue(item.name);
         setOpen(false);
-
-        inputElRef.current?.blur();
     }
 
     function handleItemClick(e: React.MouseEvent<HTMLDivElement>) {
