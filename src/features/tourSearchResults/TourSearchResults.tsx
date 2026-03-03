@@ -6,7 +6,7 @@ import { selectCurrency } from '../../entities/currency/model/selectors.ts';
 import { convertMoney, formatMoney } from '../../shared/utils/money.ts';
 import { formatDateDdMmYyyy } from '../../shared/utils/date.ts';
 import { getCountryIdFromCriteria } from '../../shared/utils/searchCriteria.ts';
-import { HotelCard } from '../HotelCard/HotelCard.tsx';
+import { HotelCard } from '../hotelCard/HotelCard.tsx';
 import styles from './TourSearchResults.module.scss';
 
 export function TourSearchResults() {

@@ -5,7 +5,7 @@ import { useAppSelector } from '../../app/hooks';
 import { selectCurrency } from '../../entities/currency/model/selectors';
 import { convertMoney, formatMoney } from '../../shared/utils/money';
 import { formatDateDdMmYyyy } from '../../shared/utils/date';
-import { HotelCard } from '../HotelCard/HotelCard';
+import { HotelCard } from '../hotelCard/HotelCard';
 import { useTourDetails } from '../../entities/tourDetails/model/useTourDetails';
 import styles from './TourDetails.module.scss';
 
