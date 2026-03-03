@@ -1,4 +1,4 @@
-import type { Destination } from '../../../features/destinationAutocomplete/types';
+import type { Destination } from '../../destination/model/types';
 
 export type Currency = 'usd';
 

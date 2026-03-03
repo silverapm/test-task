@@ -1,5 +1,5 @@
 import { Button } from '../../shared/ui/Button/Button.tsx';
-import { HOTEL_SERVICE_ICONS, HOTEL_SERVICE_LABELS } from '../../shared/utils/hotelServices.ts';
+import { HOTEL_SERVICE_ICONS, HOTEL_SERVICE_LABELS, isYesService } from '../../shared/utils/hotelServices.ts';
 import styles from './HotelCard.module.scss';
 
 type HotelServices = Record<string, string>;
@@ -18,10 +18,6 @@ type HotelCardProps = {
     isCompact?: boolean;
 };
 
-function isYes(value: unknown) {
-    return String(value).toLowerCase() === 'yes';
-}
-
 export function HotelCard({
     title,
     location,
@@ -39,7 +35,7 @@ export function HotelCard({
     const hasPrice = Boolean(priceLabel);
     const hasAction = Boolean(actionText && onAction);
 
-    const servicesYes = services ? Object.entries(services).filter(([, v]) => isYes(v)) : [];
+    const servicesYes = services ? Object.entries(services).filter(([, v]) => isYesService(v)) : [];
     const hasServices = servicesYes.length > 0;
 
     return (

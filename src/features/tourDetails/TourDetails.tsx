@@ -39,6 +39,7 @@ export function TourDetails() {
             <div className={styles.root}>
                 <div className={styles.error}>
                     <div className={styles.errorTitle}>Something went wrong</div>
+
                     <div className={styles.errorText}>{state.message}</div>
 
                     <Button type="button" onClick={retry}>Retry</Button>
