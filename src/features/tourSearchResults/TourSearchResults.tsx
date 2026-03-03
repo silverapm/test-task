@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../../app/hooks';
-import { Loader } from '../../../shared/ui/Loader/Loader';
-import { selectTourSearch, selectTourCards } from '../model/selectors';
-import { selectCurrency } from '../../currency/model/selectors';
-import { convertMoney, formatMoney } from '../../../shared/utils/money';
-import { formatDateDdMmYyyy } from '../../../shared/utils/date';
-import { getCountryIdFromCriteria } from '../../../shared/utils/searchCriteria';
-import { HotelCard } from '../../../entities/hotel/ui/HotelCard/HotelCard';
+import { useAppSelector } from '../../app/hooks.ts';
+import { Loader } from '../../shared/ui/Loader/Loader.tsx';
+import { selectTourSearch, selectTourCards } from '../../entities/tourSearch/model/selectors.ts';
+import { selectCurrency } from '../../entities/currency/model/selectors.ts';
+import { convertMoney, formatMoney } from '../../shared/utils/money.ts';
+import { formatDateDdMmYyyy } from '../../shared/utils/date.ts';
+import { getCountryIdFromCriteria } from '../../shared/utils/searchCriteria.ts';
+import { HotelCard } from '../HotelCard/HotelCard.tsx';
 import styles from './TourSearchResults.module.scss';
 
 export function TourSearchResults() {
@@ -81,6 +81,7 @@ export function TourSearchResults() {
                             priceLabel={formatMoney(convertMoney(card.amount, 'usd', currency), currency)}
                             actionText="Відкрити ціну"
                             onAction={() => handleOpenPrice(card.priceId, card.hotelId)}
+                            isCompact
                         />
                     );
                 })}

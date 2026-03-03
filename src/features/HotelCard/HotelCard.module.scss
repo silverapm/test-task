@@ -2,16 +2,15 @@
   background: var(--color-surface);
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-lg);
-  overflow: hidden;
-}
-
-.imageWrapper {
-  width: 100%;
-  padding: 16px 16px 0;
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
 }
 
 .image {
   width: 100%;
+  height: var(--card-image-height, 140px);
   border-radius: var(--radius-md);
   object-fit: cover;
   display: block;
@@ -20,32 +19,46 @@
 .imagePlaceholder {
   width: 100%;
   height: var(--card-image-height, 140px);
+  border-radius: var(--radius-md);
   background: var(--color-hover);
 }
 
-.body {
-  padding: var(--space-4);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  margin: 0;
 }
 
-.title {
-  font-size: var(--title-font-size, 16px);
-  font-weight: 600;
+.compactTitle {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text);
   margin: 0;
 }
 
 .location {
   color: var(--color-text-muted);
-  font-size: 14px;
+  font-size: var(--font-size-sm, 14px);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  margin: 0;
 }
 
 .description {
   margin: 0;
   color: var(--color-text);
-  font-size: 14px;
+  font-size: var(--font-size-sm, 14px);
   line-height: 1.45;
 }
 
@@ -56,7 +69,9 @@
 }
 
 .serviceTag {
-  margin-right: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 .serviceIcon {
@@ -65,9 +80,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex: 0 0 16px;
   color: var(--color-text-muted);
-  margin-right: 5px;
+  flex: 0 0 16px;
+}
+
+.serviceText {
+  color: var(--color-text);
+  font-size: var(--font-size-sm, 14px);
 }
 
 .meta {
@@ -76,31 +95,16 @@
   gap: var(--space-2);
 }
 
-.metaRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: var(--space-3);
-}
-
-.datesLabel {
-  color: var(--color-text-muted);
-  font-size: var(--font-size-xs);
-  text-transform: uppercase;
-}
-
 .datesValue {
   color: var(--color-text);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
-  text-align: right;
 }
 
 .priceValue {
   color: var(--color-text);
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
-  text-align: right;
 }
 
 .action {

@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { DestinationAutocomplete } from '../destinationAutocomplete/DestinationAutocomplete';
 import { Button } from '../../shared/ui/Button/Button';
-import type { Destination } from '../destinationAutocomplete/types';
+import type { Destination } from '../../entities/destination/model/types';
 import { fetchTourSearch } from '../../entities/tourSearch/model/fetchTourSearch';
 import { tourSearchActions } from '../../entities/tourSearch/model/tourSearchSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -37,8 +37,7 @@ export function TourSearchForm() {
             void api.stopSearchPrices(token).catch(() => undefined);
         }
 
-        const request = dispatch(fetchTourSearch({ destination })) as AbortableRequest;
-        activeRequestRef.current = request;
+        activeRequestRef.current = dispatch(fetchTourSearch({ destination })) as AbortableRequest;
     }
 
     return (
